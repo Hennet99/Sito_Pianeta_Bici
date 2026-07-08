@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================================
+     SITO VETRINA — NEGOZIO DI BICICLETTE (giallo e nero, fondo bianco)
+     File unico, senza dipendenze esterne: funziona per sempre.
+     Cerca i commenti "MODIFICA QUI" per personalizzare i testi.
+     ============================================================ -->
+
+<!-- MODIFICA QUI: titolo che appare nella scheda del browser -->
+<title>Ciclofficina Meroni — Vendita e riparazione biciclette</title>
+<!-- MODIFICA QUI: descrizione per Google (max ~155 caratteri) -->
+<meta name="description" content="Vendita, riparazione e manutenzione di biciclette di ogni tipo. Officina specializzata, marchi selezionati, assistenza rapida. Vieni a trovarci in negozio.">
+
+<style>
+  /* ---------- Palette e tipografia ---------- */
+  :root{
+    --fondo:   #FFFFFF;   /* sfondo bianco */
+    --nero:    #161616;   /* testo principale */
+    --grigio:  #55554F;   /* testo secondario */
+    --giallo:  #FFD60A;   /* accento principale (sfondi, evidenziazioni) */
+    --giallo-2:#F0C400;   /* accento al passaggio del mouse */
+    --oro:     #C9A400;   /* giallo scuro, leggibile come tratto sottile */
+    --linea:   #E9E8E2;   /* righe sottili */
+    --display: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --corpo:   -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --targa:   ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *, *::before, *::after{ animation:none !important; transition:none !important; }
+  }
+
+  body{
+    background:var(--fondo);
+    color:var(--nero);
+    font-family:var(--corpo);
+    font-size:1.0625rem;
+    line-height:1.65;
+  }
+
+  a{ color:var(--nero); }
+  a:focus-visible, button:focus-visible{
+    outline:3px solid var(--nero);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .contenitore{ max-width:1040px; margin:0 auto; padding:0 1.25rem; }
+
+  /* ---------- Intestazione ---------- */
+  header{
+    border-bottom:1px solid var(--linea);
+    background:var(--fondo);
+  }
+  .barra{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:1rem; padding:1rem 0; flex-wrap:wrap;
+  }
+  .marchio{
+    font-family:var(--display);
+    font-size:1.35rem; font-weight:700; letter-spacing:.02em;
+    text-decoration:none; color:var(--nero);
+    display:flex; align-items:center; gap:.6rem;
+  }
+  .marchio svg{ flex:none; }
+  nav ul{ display:flex; gap:1.4rem; list-style:none; flex-wrap:wrap; }
+  nav a{
+    text-decoration:none; color:var(--nero);
+    font-size:.95rem; letter-spacing:.04em; text-transform:uppercase;
+  }
+  nav a:hover{
+    text-decoration:underline; text-underline-offset:5px;
+    text-decoration-color:var(--giallo); text-decoration-thickness:3px;
+  }
+
+  /* ---------- Hero ---------- */
+  .eroe{
+    display:grid; grid-template-columns:1.1fr .9fr; gap:2.5rem;
+    align-items:center; padding:4.5rem 0 4rem;
+  }
+  .eroe h1{
+    font-family:var(--display);
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    line-height:1.12; font-weight:700;
+  }
+  .eroe h1 mark{
+    background:linear-gradient(transparent 58%, var(--giallo) 58%);
+    color:inherit; padding:0 .05em;
+  }
+  .eroe p{ margin-top:1.2rem; max-width:34rem; font-size:1.125rem; color:var(--grigio); }
+  .eroe .azioni{ margin-top:1.8rem; display:flex; gap:.9rem; flex-wrap:wrap; }
+  .bottone{
+    display:inline-block; padding:.75rem 1.5rem; border-radius:999px;
+    text-decoration:none; font-weight:700; font-size:1rem;
+    border:2px solid var(--nero); color:var(--nero);
+  }
+  .bottone.pieno{ background:var(--giallo); }
+  .bottone.pieno:hover{ background:var(--giallo-2); }
+  .bottone.vuoto{ background:transparent; }
+  .bottone.vuoto:hover{ background:#FFF7D6; }
+
+  /* Bicicletta disegnata a linea che "si disegna" al caricamento */
+  .bici{ width:100%; height:auto; }
+  .bici path, .bici circle{
+    fill:none; stroke:var(--nero); stroke-width:3;
+    stroke-linecap:round; stroke-linejoin:round;
+  }
+  .bici .corona{ stroke:var(--oro); }
+  .bici [pathLength]{
+    stroke-dasharray:1; stroke-dashoffset:1;
+    animation:disegna 1.6s ease forwards;
+  }
+  .bici .ritardo1{ animation-delay:.3s; }
+  .bici .ritardo2{ animation-delay:.7s; }
+  @keyframes disegna{ to{ stroke-dashoffset:0; } }
+  @media (prefers-reduced-motion: reduce){
+    .bici [pathLength]{ stroke-dashoffset:0; }
+  }
+
+  /* ---------- Sezioni ---------- */
+  section{ padding:3.5rem 0; border-top:1px solid var(--linea); }
+  .etichetta{
+    display:inline-block;
+    font-family:var(--targa); font-size:.78rem; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--nero);
+    background:var(--giallo); padding:.15rem .6rem; border-radius:4px;
+  }
+  h2{
+    font-family:var(--display); font-size:clamp(1.6rem, 3.5vw, 2.2rem);
+    margin:.7rem 0 1.6rem;
+  }
+
+  /* Officina: listino */
+  .listino{ width:100%; border-collapse:collapse; max-width:44rem; }
+  .listino th, .listino td{
+    text-align:left; padding:.7rem .4rem;
+    border-bottom:1px solid var(--linea);
+  }
+  .listino th{
+    font-size:.9rem; text-transform:uppercase; letter-spacing:.06em;
+    border-bottom:3px solid var(--giallo);
+  }
+  .listino td:last-child, .listino th:last-child{
+    text-align:right; font-family:var(--targa); white-space:nowrap;
+  }
+  .nota{ margin-top:1rem; font-size:.95rem; color:var(--grigio); max-width:44rem; }
+
+  /* In negozio: griglia semplice */
+  .griglia{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    gap:1.4rem;
+  }
+  .scheda{
+    border:1px solid var(--linea); border-radius:10px;
+    padding:1.4rem; background:#FFFDF4;
+    border-top:4px solid var(--giallo);
+  }
+  .scheda h3{ font-family:var(--display); font-size:1.2rem; margin-bottom:.5rem; }
+  .scheda p{ font-size:.98rem; color:var(--grigio); }
+
+  /* Orari e contatti */
+  .duecolonne{
+    display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:start;
+  }
+  .orari{ width:100%; max-width:26rem; border-collapse:collapse; font-family:var(--targa); font-size:.95rem; }
+  .orari td{ padding:.45rem .3rem; border-bottom:1px dashed var(--linea); }
+  .orari td:last-child{ text-align:right; }
+  .chiuso{
+    background:linear-gradient(transparent 58%, var(--giallo) 58%);
+  }
+  address{ font-style:normal; line-height:1.9; }
+  address strong{ font-family:var(--display); font-size:1.15rem; }
+
+  footer{
+    border-top:1px solid var(--linea); padding:1.6rem 0 2.2rem;
+    font-size:.9rem; color:var(--grigio);
+  }
+
+  /* ---------- Schermi piccoli ---------- */
+  @media (max-width: 760px){
+    .eroe{ grid-template-columns:1fr; padding:2.8rem 0 2.5rem; }
+    .duecolonne{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contenitore barra">
+    <!-- MODIFICA QUI: nome del negozio -->
+    <a class="marchio" href="#">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <circle cx="15" cy="15" r="12" fill="#FFD60A" stroke="#161616" stroke-width="2.5"/>
+        <circle cx="15" cy="15" r="3.5" fill="#161616"/>
+        <line x1="15" y1="3"  x2="15" y2="11.5" stroke="#161616" stroke-width="2"/>
+        <line x1="15" y1="18.5" x2="15" y2="27" stroke="#161616" stroke-width="2"/>
+        <line x1="3"  y1="15" x2="11.5" y2="15" stroke="#161616" stroke-width="2"/>
+        <line x1="18.5" y1="15" x2="27" y2="15" stroke="#161616" stroke-width="2"/>
+      </svg>
+      Ciclofficina Meroni
+    </a>
+    <nav aria-label="Principale">
+      <ul>
+        <li><a href="#officina">Officina</a></li>
+        <li><a href="#negozio">In negozio</a></li>
+        <li><a href="#orari">Orari</a></li>
+        <li><a href="#dove">Dove siamo</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="contenitore eroe">
+    <div>
+      <!-- MODIFICA QUI: titolo principale e anno di apertura -->
+      <h1>Biciclette vendute, riparate e <mark>rimesse in strada</mark> dal 1987.</h1>
+      <p>
+        Negozio e officina di quartiere: bici da città, trekking, gravel,
+        corsa, MTB ed e&#8209;bike. Riparazioni rapide e consigli onesti,
+        senza appuntamento per i piccoli interventi.
+      </p>
+      <div class="azioni">
+        <!-- MODIFICA QUI: numero di telefono (in entrambi i punti) -->
+        <a class="bottone pieno" href="tel:+390212345678">Chiama il negozio</a>
+        <a class="bottone vuoto" href="#dove">Come raggiungerci</a>
+      </div>
+    </div>
+
+    <!-- Bicicletta stilizzata (decorativa) -->
+    <svg class="bici" viewBox="0 0 400 240" role="img" aria-label="Disegno stilizzato di una bicicletta">
+      <circle cx="95"  cy="180" r="55" pathLength="1"/>
+      <circle class="ritardo1" cx="305" cy="180" r="55" pathLength="1"/>
+      <circle class="corona ritardo1" cx="197" cy="180" r="16" pathLength="1"/>
+      <!-- telaio -->
+      <path class="ritardo1" pathLength="1" d="M95 180 L197 180 L163 96 L262 96 L281 128 L305 180"/>
+      <path class="ritardo2" pathLength="1" d="M163 96 L197 180"/>
+      <!-- forcella, manubrio, sella -->
+      <path class="ritardo2" pathLength="1" d="M262 96 L256 78 L242 74 M270 74 L256 78"/>
+      <path class="ritardo2" pathLength="1" d="M163 96 L156 78 M143 76 L170 76"/>
+      <!-- pedale -->
+      <path class="ritardo2" pathLength="1" d="M197 180 L210 196 M202 202 L218 190"/>
+    </svg>
+  </div>
+
+  <!-- ============ OFFICINA ============ -->
+  <section id="officina">
+    <div class="contenitore">
+      <p class="etichetta">Officina</p>
+      <h2>Riparazioni e manutenzione</h2>
+
+      <!-- MODIFICA QUI: servizi e prezzi. Per aggiungere una riga,
+           copia e incolla un blocco <tr>...</tr> e cambia i testi. -->
+      <table class="listino">
+        <thead>
+          <tr><th>Intervento</th><th>Prezzo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Foratura e cambio camera d'aria</td><td>da € 12</td></tr>
+          <tr><td>Registrazione cambio e freni</td><td>da € 20</td></tr>
+          <tr><td>Tagliando completo</td><td>da € 55</td></tr>
+          <tr><td>Sostituzione catena e pignoni</td><td>da € 35</td></tr>
+          <tr><td>Centratura ruota</td><td>da € 18</td></tr>
+          <tr><td>Assistenza e-bike (diagnosi motore)</td><td>da € 30</td></tr>
+        </tbody>
+      </table>
+      <p class="nota">
+        I prezzi indicati sono di partenza e non includono gli eventuali
+        ricambi. Per lavori più grandi facciamo sempre un preventivo
+        gratuito prima di iniziare.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ IN NEGOZIO ============ -->
+  <section id="negozio">
+    <div class="contenitore">
+      <p class="etichetta">In negozio</p>
+      <h2>Cosa trovi da noi</h2>
+
+      <!-- MODIFICA QUI: le tre schede qui sotto. Puoi aggiungerne
+           altre copiando un blocco <div class="scheda">...</div> -->
+      <div class="griglia">
+        <div class="scheda">
+          <h3>Bici nuove</h3>
+          <p>Città, trekking, gravel, corsa, MTB e bimbi. Marchi
+             selezionati che possiamo assistere direttamente in officina.</p>
+        </div>
+        <div class="scheda">
+          <h3>Bici usate garantite</h3>
+          <p>Usato controllato e revisionato da noi, con garanzia di
+             tre mesi su telaio e trasmissione.</p>
+        </div>
+        <div class="scheda">
+          <h3>Accessori e ricambi</h3>
+          <p>Caschi, luci, borse, copertoni, catene e lucchetti.
+             Se non lo abbiamo, lo ordiniamo in pochi giorni.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ORARI E DOVE SIAMO ============ -->
+  <section id="orari">
+    <div class="contenitore duecolonne">
+      <div>
+        <p class="etichetta">Orari</p>
+        <h2>Quando siamo aperti</h2>
+        <!-- MODIFICA QUI: gli orari di apertura -->
+        <table class="orari">
+          <tr><td>Lunedì</td><td class="chiuso">chiuso</td></tr>
+          <tr><td>Martedì – Venerdì</td><td>9:00–12:30 · 15:00–19:00</td></tr>
+          <tr><td>Sabato</td><td>9:00–13:00</td></tr>
+          <tr><td>Domenica</td><td class="chiuso">chiuso</td></tr>
+        </table>
+      </div>
+
+      <div id="dove">
+        <p class="etichetta">Dove siamo</p>
+        <h2>Vieni a trovarci</h2>
+        <!-- MODIFICA QUI: indirizzo, telefono ed email -->
+        <address>
+          <strong>Ciclofficina Meroni</strong><br>
+          Via dei Ciclisti 42<br>
+          20100 Milano (MI)<br>
+          Tel. <a href="tel:+390212345678">02 1234 5678</a><br>
+          <a href="mailto:info@esempio.it">info@esempio.it</a>
+        </address>
+        <p style="margin-top:1rem">
+          <!-- MODIFICA QUI: incolla il link "Condividi" di Google Maps -->
+          <a class="bottone vuoto" href="https://maps.google.com/?q=Via+dei+Ciclisti+42,+Milano"
+             target="_blank" rel="noopener">Apri in Google Maps</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="contenitore">
+    <!-- MODIFICA QUI: dati fiscali del negozio -->
+    <p>© Ciclofficina Meroni · P. IVA 01234567890 · Via dei Ciclisti 42, Milano</p>
+    <p>Questo sito non usa cookie e non raccoglie dati personali.</p>
+  </div>
+</footer>
+
+</body>
+</html>
